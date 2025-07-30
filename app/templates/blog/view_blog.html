@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {{ blog.title }}
+{% endblock %}
+
+{% block body %}
+
+    {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <p>{{ category + " " + message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <h3>{{ blog.title }}</h3>
+    <p>{{ blog.content }}</p>
+    <p>Author: <strong>{{ blog.user.first_name + " " + blog.user.last_name }}</strong></p>
+    <form action="{{ url_for('blog.view_blog', blog_id=blog.id)}}" method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <label for="comment">Add a comment to this blog:</label>
+        <br>
+        <textarea type="text" name="comment" id="comment" required="True" placeholder="type your comment here"></textarea>
+        <br>
+        <button type="submit">Submit</button>
+    </form>
+
+    <form action="{{ url_for('blog.toggle_like', blog_id=blog.id)}}" method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        {% if liked %}
+            <button type="submit" class="btn btn-danger">Unlike</button>
+        {% else %}
+            <button type="submit" class="btn btn-primary">Like</button>
+        {% endif %}
+        <span>{{ blog.likes.count() }} Likes </span>
+    </form>
+
+    <strong>Comments for this blog:</strong>
+    {% for comment in comments %}
+        <p>{{ comment.comment }}</p>
+        <p>By: <strong>{{ comment.user.first_name + " " + comment.user.last_name }}</strong></p>
+    {% endfor %}
+    <br>
+    {% set user_roles = user.roles | map(attribute='name') | list %}
+    {% if 'admin' in user_roles or 'author' in user_roles or 'reader' in user_roles %}
+        <a href="{{ url_for('blog.all_blogs') }}">click here to go back to all blogs</a>
+    {% endif %}
+    <br>
+    {% if 'admin' in user_roles or 'author' in user_roles %}
+        <a href="{{ url_for('blog.show_created_blogs')}}">click here to go to your blogs</a>
+    {% endif %}
+    <br>
+        <a href="{{ url_for('dashboard.dashboard') }}">click here to view dashboard</a>
+{% endblock %}

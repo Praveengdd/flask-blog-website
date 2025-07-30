@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Register Yourself
+{% endblock %}
+
+{% block body %}
+    <h1>Register yourself to read blogs</h1>
+
+    {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <p>{{ message }}, {{ category }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <form action="{{ url_for('auth.register') }}" method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+        <label for="fname">Enter your First Name: </label>
+        <input type="text" id="fname" name="first_name" required="True" placeholder="first name">
+        <br>
+        <label for="lname">Enter your Last Name: </label>
+        <input type="text" id="lname" name="last_name" required="True" placeholder="last name">
+        <br>
+        <label for="email">Enter your Email ID: </label>
+        <input type="email" id="email" name="email" required="True" placeholder="email id">
+        <br>
+        <label for="password">Enter your password: </label>
+        <input type="password" id="password" name="password" required="True" placeholder="password">
+        <br>
+        <p>Choose your role: </p>
+        <input type="radio" name="role" id="Author" value=2 required="True">Author</input>
+        <br>
+        <input type="radio" name="role" id="Reader" value=3>Reader</input>
+        <br>
+        <button type="submit">Submit</button>
+        <br>
+        <span>Already a user?? <a href="{{ url_for('auth.login') }}">click here to login!!</a></span>
+    </form>
+{% endblock %}

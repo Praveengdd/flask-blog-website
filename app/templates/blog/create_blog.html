@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Create A Blog
+{% endblock %}
+
+{% block body %}
+    <form action="{{ url_for('blog.create_blog') }}" method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <p>Select Blog Category: </p>
+        <input type="radio" name="category" id="cat1" value=1 required="True">Wildlife</input>
+        <br>
+        <input type="radio" name="category" id="cat2" value=2>Biology</input>
+        <br>
+        <input type="radio" name="category" id="cat3" value=3>Lifestyle</input>
+        <br>
+        <input type="radio" name="category" id="cat4" value=4>Finance</input>
+        <br>
+        <input type="radio" name="category" id="cat5" value=5>Education</input>
+        <br>
+        <label for="title">Enter Blog Title: </label>
+        <input type="text" id="title" name="title" required="True" placeholder="title">
+        <br>
+        <label for="content">Enter Blog Content: </label>
+        <input type="text" id="content" name="content" required="True" placeholder="content goes here">
+        <button type="submit">Submit</button>
+    </form>
+{% endblock %}

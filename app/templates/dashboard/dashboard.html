@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+your dashboard
+{% endblock %}
+
+{% block body %}
+
+{% with messages = get_flashed_messages(with_categories=True) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <p>{{ message }}, {{ category }}</p>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<p>user: {{ user.email}}</p>
+<p>name: {{ user.first_name + " " + user.last_name }}</p>
+<p>Roles</p>
+{% for role in user.roles %}
+    <p>{{ role.name }}</p>
+{% endfor %}
+
+<strong>Your comments: </strong>
+{% for comment in user.comments %}
+    <p>{{ comment.comment }}</p> <a href="{{ url_for('blog.view_blog', blog_id=comment.blog.id) }}">view the blog</a> 
+    <br>
+{% endfor %}
+<br>
+
+<strong>Liked Blogs: </strong>
+<br>
+{% set liked_blog_ids = user.liked_blogs | map(attribute='blog_id') | list %}
+{% for blog in all_blogs %}
+    {% if blog.id in liked_blog_ids %}
+        <strong>Blog: {{ blog.title }} </strong>
+        <p>By: <strong>{{ blog.user.first_name + " " + blog.user.last_name }}</strong></p>
+        <br>
+        <a href="{{ url_for('blog.view_blog', blog_id=blog.id) }}">view blog</a>
+        <br>
+    {% endif %}
+{% endfor %}
+<br>
+
+
+
+<a href="{{ url_for('blog.all_blogs')}}">Click here to see all blogs</a>
+<br>
+{% set role_names = user.roles | map(attribute='name') | list %}
+{% if 'admin' in role_names or 'author' in role_names %}
+    <a href="{{ url_for('blog.show_created_blogs')}}">click here to see your blogs</a>
+{% endif %}
+<br>
+<a href="{{ url_for('auth.logout') }}">click here to logout</a>
+{% endblock %}

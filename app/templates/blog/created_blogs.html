@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}
+    All Blogs
+{% endblock %}
+
+{% block body %}
+<h2>These are the blogs created by you: {{ user.first_name + " " + user.last_name }}</h2>
+    {% for blog in all_blogs %}
+        <h2>{{ blog.title }}</h2>
+        <p>{{ blog.content }}</p>
+        <strong>Comments for this blog:</strong>
+        {% for comment in blog.comments %}
+            <p>{{ comment.comment }}</p>
+            <p>By: <strong>{{ comment.user.first_name + " " + comment.user.last_name }}</strong></p>
+        {% endfor %}
+        <br>
+        <a href="{{ url_for('blog.view_blog', blog_id=blog.id)}}">view this blog</a>
+    {% endfor %}
+
+    <br>
+    <a href="{{ url_for('dashboard.dashboard') }}">click here to view dashboard</a>
+{% endblock %}
