@@ -3,4 +3,7 @@ __pycache__/
 *.pyc
 .env
 instance/
-/app/static/uploads
+/app/static/uploads/*
+
+#keep the folder structure of uploads
+!/app/static/uploads/.gitkeep
