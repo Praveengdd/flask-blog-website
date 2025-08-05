@@ -16,6 +16,16 @@
 
     <h3>{{ blog.title }}</h3>
     <p>{{ blog.content }}</p>
+    
+    {% if images %}
+        <h3>Images</h3>
+        {% for image in images %}
+    
+            <img src="{{ url_for('static', filename= image.image_path  ) }}" alt="Blog Image" style="height: 5cm; width: 5cm;">
+        {% endfor %}
+    {% endif %}
+
+
     <p>Author: <strong>{{ blog.user.first_name + " " + blog.user.last_name }}</strong></p>
     <form action="{{ url_for('blog.view_blog', blog_id=blog.id)}}" method="POST">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">

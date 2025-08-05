@@ -16,6 +16,7 @@ from app.models.blog import Blog
 from app.models.category import BlogCategory
 from app.models.comment import Comment
 from app.models.like import Likes
+from app.models.images import Image
 
 def insert_roles():
     roles = ["admin", "author", "reader"]

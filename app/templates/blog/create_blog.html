@@ -5,8 +5,9 @@
 {% endblock %}
 
 {% block body %}
-    <form action="{{ url_for('blog.create_blog') }}" method="POST">
+    <form action="{{ url_for('blog.create_blog') }}" method="POST" enctype="multipart/form-data">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
         <p>Select Blog Category: </p>
         <input type="radio" name="category" id="cat1" value=1 required="True">Wildlife</input>
         <br>
@@ -18,11 +19,24 @@
         <br>
         <input type="radio" name="category" id="cat5" value=5>Education</input>
         <br>
+
         <label for="title">Enter Blog Title: </label>
         <input type="text" id="title" name="title" required="True" placeholder="title">
         <br>
+
         <label for="content">Enter Blog Content: </label>
         <input type="text" id="content" name="content" required="True" placeholder="content goes here">
+        
+        <br>
+        <label for="images">Upload Images: (max 3)</label>
+        <br>
+        <input type="file" id="images" name="images" accept="images/*">
+        <br>
+        <input type="file" id="images" name="images" accept="images/*">
+        <br>
+        <input type="file" id="images" name="images" accept="images/*">
+        <br>
+
         <button type="submit">Submit</button>
     </form>
 {% endblock %}
